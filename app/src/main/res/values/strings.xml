@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">E15Project</string>
+    <string name="ingresar">Ingresar</string>
+    <string name="restablecer_contrasena">Restablecer contraseña</string>
+    <string name="acceso_rapido">Acceso Rápido</string>
+    <string name="contrasena">contraseña</string>
+    <string name="email">email</string>
+    <string name="email_registro">email</string>
+    <string name="nombre_y_apellido">nombre y apellido</string>
+    <string name="registrar">Registrar</string>
+    <string name="contrasena_registro">contraseña</string>
+    <string name="slogan_registro">La manera mas fácil y rápida de evaluacion</string>
+    <string name="titulo_registro">¡Unete a E15!</string>
+    <string name="titulo_principal">Evalua y presenta de manera rápida e inteligente</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="sign_up">SIGN UP</string>
 </resources>

@@ -11,7 +11,8 @@
         <activity android:name=".Presentacion" />
         <activity android:name=".Registro" />
         <activity android:name=".Restablecer" />
-        <activity android:name=".Ingreso"></activity>
+        <activity android:name=".Ingreso" />
+        <activity android:name=".Cursos"></activity>
     </application>
 
 </manifest>
