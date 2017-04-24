@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/activity_restablecer"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:paddingBottom="@dimen/activity_vertical_margin"
+android:paddingLeft="20dp"
+android:paddingRight="20dp"
+android:paddingTop="@dimen/activity_vertical_margin"
+tools:context="juniorvalerav.e15project.Restablecer"
+android:background="@color/colorPrimary">
+
+<TextView
+    android:text="Recuperar Contraseña"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="54dp"
+    android:id="@+id/textView6"
+    android:textSize="25sp"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentStart="true"
+    android:textAllCaps="false"
+    android:textStyle="normal|bold|italic"
+    android:textColor="@android:color/background_light" />
+
+<TextView
+    android:text="Ingrese su correo electronico para restablecer su contraseña"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/textView4"
+    android:textColor="@android:color/background_light"
+    android:layout_marginTop="19dp"
+    android:layout_below="@+id/editText"
+    android:layout_alignParentStart="true" />
+
+<Button
+    android:text="Restablecer Contraseña"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/button"
+    android:background="@color/colorPrimaryDark"
+    android:textColor="@android:color/background_light"
+    android:textStyle="normal|bold"
+    android:layout_marginBottom="49dp"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentStart="true" />
+
+<EditText
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:inputType="textEmailAddress"
+    android:ems="10"
+    android:id="@+id/editText"
+    android:background="@android:color/background_light"
+    android:padding="9dp"
+    android:hint="email"
+    android:layout_marginTop="50dp"
+    android:layout_below="@+id/textView6"
+    android:layout_alignParentStart="true" />
+
+</RelativeLayout>
