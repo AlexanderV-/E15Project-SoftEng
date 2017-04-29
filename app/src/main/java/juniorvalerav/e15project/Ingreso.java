@@ -10,17 +10,54 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+
 public class Ingreso extends AppCompatActivity {
 
     private EditText emailEditTextView;
     private EditText contrasenaEditTextView;
     private TextView restableceTextView;
 
+    private LoginButton loginBoton;
+    private CallbackManager callbackManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingreso);
+
+        callbackManager = CallbackManager.Factory.create();
+
+        loginBoton = (LoginButton) findViewById(R.id.facebook_loginBoton);
+        loginBoton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+            CursosMain();
+            }
+
+            @Override
+            public void onCancel() {
+            Toast.makeText(getApplicationContext(),R.string.cancel_login,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+            Toast.makeText(getApplicationContext(),R.string.error_login,Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
         bindUI();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     private void bindUI(){

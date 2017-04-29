@@ -15,4 +15,6 @@
     <string name="sign_in">SIGN IN</string>
     <string name="facebook_app_id">850966485051129</string>
     <string name="sign_up">SIGN UP</string>
+    <string name="cancel_login">Se cancelo el login</string>
+    <string name="error_login">Ocurrio un error en el logeo</string>
 </resources>
