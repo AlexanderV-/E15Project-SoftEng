@@ -90,7 +90,7 @@ public class Ingreso extends AppCompatActivity {
             Toast.makeText(this,"Email no válido, intente de nuevo",Toast.LENGTH_LONG).show();
             return false;
         }else if(!contraValido(pass)) {
-            Toast.makeText(this,"Contraseña no válido, intente de nuevo",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Contraseña no válido, Intentar de nuevo",Toast.LENGTH_LONG).show();
             return false;
         }else
             return true;
