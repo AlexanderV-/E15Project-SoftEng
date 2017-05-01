@@ -89,4 +89,12 @@ android:id="@+id/ingresoActivity">
         android:layout_below="@+id/restablecerTextView"
         android:layout_alignParentStart="true" />
 
+    <com.google.android.gms.common.SignInButton
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:onClick="GoogleBoton"
+        android:id="@+id/google_loginBoton"
+        android:layout_below="@+id/facebook_loginBoton">
+
+    </com.google.android.gms.common.SignInButton>
 </RelativeLayout>
