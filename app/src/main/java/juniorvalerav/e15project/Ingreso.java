@@ -67,7 +67,7 @@ public class Ingreso extends AppCompatActivity implements GoogleApiClient.OnConn
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingreso);
-
+        getSupportActionBar().hide();
 
         //Manejo de Sesion con Google
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -170,14 +170,7 @@ public class Ingreso extends AppCompatActivity implements GoogleApiClient.OnConn
 
     private void fireBaseAuthHandler(AuthCredential credential) {
 
-        emailEditTextView.setVisibility(View.GONE);
-        contrasenaEditTextView.setVisibility(View.GONE);
-        restableceTextView.setVisibility(View.GONE);
-        accesoTextView.setVisibility(View.GONE);
-        ingresarButton.setVisibility(View.GONE);
-        signInButton.setVisibility(View.GONE);
-        loginBoton.setVisibility(View.GONE);
-        progressBar.setVisibility(View.VISIBLE);
+        progressBarEffect();
 
         fireBaseAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
@@ -187,17 +180,23 @@ public class Ingreso extends AppCompatActivity implements GoogleApiClient.OnConn
                 if(!task.isSuccessful()){
                     Toast.makeText(getApplicationContext(), "Error de conexion con Google", Toast.LENGTH_SHORT).show();
                 }
-                emailEditTextView.setVisibility(View.VISIBLE);
-                contrasenaEditTextView.setVisibility(View.VISIBLE);
-                restableceTextView.setVisibility(View.VISIBLE);
-                accesoTextView.setVisibility(View.VISIBLE);
-                ingresarButton.setVisibility(View.VISIBLE);
-                signInButton.setVisibility(View.VISIBLE);
+
                 progressBar.setVisibility(View.GONE);
             }
         });
     }
 
+    private void progressBarEffect()
+    {
+        emailEditTextView.setVisibility(View.GONE);
+        contrasenaEditTextView.setVisibility(View.GONE);
+        restableceTextView.setVisibility(View.GONE);
+        accesoTextView.setVisibility(View.GONE);
+        ingresarButton.setVisibility(View.GONE);
+        signInButton.setVisibility(View.GONE);
+        loginBoton.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
 
     private void bindUI(){
         emailEditTextView = (EditText) findViewById(R.id.emailIngreso);
