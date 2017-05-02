@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -77,7 +78,9 @@ public class Cursos extends AppCompatActivity implements GoogleApiClient.OnConne
 
 
     public void LogOut(View view) {
-        fireBaseAuth.signOut();
+        fireBaseAuth.getInstance().signOut();
+
+        LoginManager.getInstance().logOut();//FacebookLogOut
 
         Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
@@ -92,7 +95,7 @@ public class Cursos extends AppCompatActivity implements GoogleApiClient.OnConne
     }
 
     public void Revoke(View view) {
-        fireBaseAuth.signOut();
+        fireBaseAuth.getInstance().signOut();
 
         Auth.GoogleSignInApi.revokeAccess(googleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override

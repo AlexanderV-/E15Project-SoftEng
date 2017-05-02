@@ -9,6 +9,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -41,6 +42,8 @@ public class Ingreso extends AppCompatActivity implements GoogleApiClient.OnConn
     private EditText emailEditTextView;
     private EditText contrasenaEditTextView;
     private TextView restableceTextView;
+    private TextView accesoTextView;
+    private Button ingresarButton;
     private ProgressBar progressBar;
 
 
@@ -167,13 +170,30 @@ public class Ingreso extends AppCompatActivity implements GoogleApiClient.OnConn
 
     private void fireBaseAuthHandler(AuthCredential credential) {
 
+        emailEditTextView.setVisibility(View.GONE);
+        contrasenaEditTextView.setVisibility(View.GONE);
+        restableceTextView.setVisibility(View.GONE);
+        accesoTextView.setVisibility(View.GONE);
+        ingresarButton.setVisibility(View.GONE);
+        signInButton.setVisibility(View.GONE);
+        loginBoton.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+
         fireBaseAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 
+
                 if(!task.isSuccessful()){
                     Toast.makeText(getApplicationContext(), "Error de conexion con Google", Toast.LENGTH_SHORT).show();
                 }
+                emailEditTextView.setVisibility(View.VISIBLE);
+                contrasenaEditTextView.setVisibility(View.VISIBLE);
+                restableceTextView.setVisibility(View.VISIBLE);
+                accesoTextView.setVisibility(View.VISIBLE);
+                ingresarButton.setVisibility(View.VISIBLE);
+                signInButton.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
@@ -183,6 +203,8 @@ public class Ingreso extends AppCompatActivity implements GoogleApiClient.OnConn
         emailEditTextView = (EditText) findViewById(R.id.emailIngreso);
         contrasenaEditTextView = (EditText) findViewById(R.id.passwordIngreso);
         restableceTextView = (TextView) findViewById(R.id.restablecerTextView);
+        accesoTextView= (TextView) findViewById(R.id.acceso_rapido);
+        ingresarButton= (Button) findViewById(R.id.ingresarBoton);
         progressBar = (ProgressBar) findViewById(R.id.progres_bar);
     }
 
