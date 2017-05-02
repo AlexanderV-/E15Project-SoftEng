@@ -19,34 +19,53 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 public class Ingreso extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private EditText emailEditTextView;
     private EditText contrasenaEditTextView;
     private TextView restableceTextView;
-
+    //Google
     private GoogleApiClient googleApiClient;
-    private GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .build();
+
     private SignInButton signInButton;
     public static final int SIGN_IN_CODE = 777;
 
+    private FirebaseAuth fireBaseAuth;
+    private FirebaseAuth.AuthStateListener fireBaseAuthListener;
+
+
+    //Facebook
     private LoginButton loginBoton;
     private CallbackManager callbackManager;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingreso);
 
+
         //Manejo de Sesion con Google
+        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this,this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
                 .build();
@@ -60,6 +79,19 @@ public class Ingreso extends AppCompatActivity implements GoogleApiClient.OnConn
                 startActivityForResult(intent, SIGN_IN_CODE);
             }
         });
+
+       fireBaseAuth = FirebaseAuth.getInstance();
+       fireBaseAuthListener = new FirebaseAuth.AuthStateListener() {
+           @Override
+           public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+               FirebaseUser user = firebaseAuth.getCurrentUser();
+               if (user != null){
+                   CursosMain();
+               }
+           }
+       };
+
+
 
         //Manejo de Sesion con Facebook
         callbackManager = CallbackManager.Factory.create();
@@ -85,6 +117,22 @@ public class Ingreso extends AppCompatActivity implements GoogleApiClient.OnConn
         bindUI();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        fireBaseAuth.addAuthStateListener(fireBaseAuthListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+       if(fireBaseAuthListener != null){
+           fireBaseAuth.removeAuthStateListener(fireBaseAuthListener);
+       }
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -101,11 +149,24 @@ public class Ingreso extends AppCompatActivity implements GoogleApiClient.OnConn
     private void handleSignInResult(GoogleSignInResult result) {
 
         if (result.isSuccess()){
-            CursosMain();
+            fireBaseAuthWithGoogle(result.getSignInAccount());
         }else {
-            Toast.makeText(this,"Error de Conexion 'Google' ",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Error de Conexion 'Google' ",Toast.LENGTH_SHORT).show();
         }
     }
+
+    private void fireBaseAuthWithGoogle(GoogleSignInAccount signInAccount) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(signInAccount.getIdToken(),null);
+        fireBaseAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(!task.isSuccessful()){
+                    Toast.makeText(getApplicationContext(), "Error de conexion con Google", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
 
     private void bindUI(){
         emailEditTextView = (EditText) findViewById(R.id.emailIngreso);
@@ -134,10 +195,10 @@ public class Ingreso extends AppCompatActivity implements GoogleApiClient.OnConn
 
     private boolean logeo(String email, String pass){
         if(!emailValido(email)){
-            Toast.makeText(this,"Email no válido, intente de nuevo",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"Email no válido, intente de nuevo",Toast.LENGTH_LONG).show();
             return false;
         }else if(!contraValido(pass)) {
-            Toast.makeText(this,"Contraseña no válido, Intentar de nuevo",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"Contraseña no válido, Intentar de nuevo",Toast.LENGTH_LONG).show();
             return false;
         }else
             return true;
@@ -158,7 +219,7 @@ public class Ingreso extends AppCompatActivity implements GoogleApiClient.OnConn
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(this, "Error en la conexion Facebook",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Error en la conexion Facebook",Toast.LENGTH_SHORT).show();
     }
 
 
