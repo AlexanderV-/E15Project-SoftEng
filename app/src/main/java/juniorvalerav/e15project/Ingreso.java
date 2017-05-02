@@ -10,9 +10,11 @@ import android.util.Patterns;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -29,6 +31,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -38,6 +41,9 @@ public class Ingreso extends AppCompatActivity implements GoogleApiClient.OnConn
     private EditText emailEditTextView;
     private EditText contrasenaEditTextView;
     private TextView restableceTextView;
+    private ProgressBar progressBar;
+
+
     //Google
     private GoogleApiClient googleApiClient;
 
@@ -99,8 +105,11 @@ public class Ingreso extends AppCompatActivity implements GoogleApiClient.OnConn
         loginBoton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                CursosMain();
+
+                AuthCredential credential = FacebookAuthProvider.getCredential(loginResult.getAccessToken().getToken());
+                fireBaseAuthHandler(credential);
             }
+
 
             @Override
             public void onCancel() {
@@ -140,26 +149,28 @@ public class Ingreso extends AppCompatActivity implements GoogleApiClient.OnConn
 
         if (requestCode == SIGN_IN_CODE){
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult (result);
+            handleSignInResultGoogle(result);
         }
 
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void handleSignInResult(GoogleSignInResult result) {
+    private void handleSignInResultGoogle(GoogleSignInResult result) {
 
         if (result.isSuccess()){
-            fireBaseAuthWithGoogle(result.getSignInAccount());
+            AuthCredential credential = GoogleAuthProvider.getCredential(result.getSignInAccount().getIdToken(),null);
+            fireBaseAuthHandler(credential);
         }else {
             Toast.makeText(getApplicationContext(),"Error de Conexion 'Google' ",Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void fireBaseAuthWithGoogle(GoogleSignInAccount signInAccount) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(signInAccount.getIdToken(),null);
+    private void fireBaseAuthHandler(AuthCredential credential) {
+
         fireBaseAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+
                 if(!task.isSuccessful()){
                     Toast.makeText(getApplicationContext(), "Error de conexion con Google", Toast.LENGTH_SHORT).show();
                 }
@@ -172,6 +183,7 @@ public class Ingreso extends AppCompatActivity implements GoogleApiClient.OnConn
         emailEditTextView = (EditText) findViewById(R.id.emailIngreso);
         contrasenaEditTextView = (EditText) findViewById(R.id.passwordIngreso);
         restableceTextView = (TextView) findViewById(R.id.restablecerTextView);
+        progressBar = (ProgressBar) findViewById(R.id.progres_bar);
     }
 
 

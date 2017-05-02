@@ -96,4 +96,15 @@ android:id="@+id/ingresoActivity">
         android:layout_below="@+id/facebook_loginBoton">
 
     </com.google.android.gms.common.SignInButton>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:id="@+id/progres_bar"
+        />
+    
+    
 </RelativeLayout>

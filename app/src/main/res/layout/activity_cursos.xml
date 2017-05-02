@@ -10,4 +10,25 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="juniorvalerav.e15project.Cursos">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/signout_boton"
+        android:hint="Cerrar Sesion"
+        android:onClick="LogOut"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21dp"
+        android:layout_below="@+id/signout_boton"
+        android:layout_alignParentStart="true"
+        android:hint="Borrar datos de sesion"
+        android:onClick="Revoke"
+
+        />
+
 </RelativeLayout>
