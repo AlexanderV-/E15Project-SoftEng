@@ -81,18 +81,6 @@ public class Cursos extends AppCompatActivity implements GoogleApiClient.OnConne
     public void LogOut(View view) {
         fireBaseAuth.getInstance().signOut();
 
-        LoginManager.getInstance().logOut();//FacebookLogOut
-
-        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
-            @Override
-            public void onResult(@NonNull Status status) {
-                if (status.isSuccess()){
-                    goToLogin();
-                }else{
-                    Toast.makeText(getApplicationContext(), "No se pudo cerrar sesion", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
 
     public void Revoke(View view) {

@@ -62,7 +62,6 @@ public class Ingreso extends AppCompatActivity implements GoogleApiClient.OnConn
     private CallbackManager callbackManager;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,8 +98,6 @@ public class Ingreso extends AppCompatActivity implements GoogleApiClient.OnConn
                }
            }
        };
-
-
 
         //Manejo de Sesion con Facebook
         callbackManager = CallbackManager.Factory.create();
@@ -144,7 +141,6 @@ public class Ingreso extends AppCompatActivity implements GoogleApiClient.OnConn
            fireBaseAuth.removeAuthStateListener(fireBaseAuthListener);
        }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -214,35 +210,24 @@ public class Ingreso extends AppCompatActivity implements GoogleApiClient.OnConn
         String pass;
         email = emailEditTextView.getText().toString();
         pass = contrasenaEditTextView.getText().toString();
-        if(logeo(email, pass)){
-            CursosMain();
-        }
 
+        fireBaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                Log.d("SIGN_IN", "signInWithEmail:onComplete:" + task.isSuccessful());
+                if (!task.isSuccessful()) {
+                    Log.w("SIGN_IN", "signInWithEmail:failed", task.getException());
+                    Toast.makeText(getApplicationContext(), "Error al ingresar", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
+
     //Redirige hacia la activadad Cursos y no permite el uso de Back del telf despues de logeado
     private void CursosMain() {
         Intent intento = new Intent(this,Cursos.class);
         intento.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intento);
-    }
-
-    private boolean logeo(String email, String pass){
-        if(!emailValido(email)){
-            Toast.makeText(getApplicationContext(),"Email no válido, intente de nuevo",Toast.LENGTH_LONG).show();
-            return false;
-        }else if(!contraValido(pass)) {
-            Toast.makeText(getApplicationContext(),"Contraseña no válido, Intentar de nuevo",Toast.LENGTH_LONG).show();
-            return false;
-        }else
-            return true;
-    }
-
-    private boolean emailValido(String email){
-        return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
-
-    private boolean contraValido(String pass){
-        return pass.length() >= 6;
     }
 
     public void restablecerContraseña(View view) {
