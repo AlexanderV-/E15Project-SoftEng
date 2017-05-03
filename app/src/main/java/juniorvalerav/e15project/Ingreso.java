@@ -182,6 +182,28 @@ public class Ingreso extends AppCompatActivity implements GoogleApiClient.OnConn
         });
     }
 
+
+    //Si el login es exitoso te lleva hacia la actividad de Cursos
+    public void Login(View view) {
+        String email;
+        String pass;
+        email = emailEditTextView.getText().toString();
+        pass = contrasenaEditTextView.getText().toString();
+        progressBarEffect();
+        fireBaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                Log.d("SIGN_IN", "signInWithEmail:onComplete:" + task.isSuccessful());
+                if (!task.isSuccessful()) {
+                    Log.w("SIGN_IN", "signInWithEmail:failed", task.getException());
+                    Toast.makeText(getApplicationContext(), "Error al ingresar", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+
+
     private void progressBarEffect()
     {
         emailEditTextView.setVisibility(View.GONE);
@@ -204,24 +226,6 @@ public class Ingreso extends AppCompatActivity implements GoogleApiClient.OnConn
     }
 
 
-    //Si el login es exitoso te lleva hacia la actividad de Cursos
-    public void Login(View view) {
-        String email;
-        String pass;
-        email = emailEditTextView.getText().toString();
-        pass = contrasenaEditTextView.getText().toString();
-
-        fireBaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                Log.d("SIGN_IN", "signInWithEmail:onComplete:" + task.isSuccessful());
-                if (!task.isSuccessful()) {
-                    Log.w("SIGN_IN", "signInWithEmail:failed", task.getException());
-                    Toast.makeText(getApplicationContext(), "Error al ingresar", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
 
     //Redirige hacia la activadad Cursos y no permite el uso de Back del telf despues de logeado
     private void CursosMain() {
