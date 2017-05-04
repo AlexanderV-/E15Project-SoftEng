@@ -66,7 +66,6 @@ public class Ingreso extends AppCompatActivity implements GoogleApiClient.OnConn
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingreso);
-        getSupportActionBar().hide();
 
         //Manejo de Sesion con Google
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -201,7 +200,6 @@ public class Ingreso extends AppCompatActivity implements GoogleApiClient.OnConn
             }
         });
     }
-
 
 
     private void progressBarEffect()
