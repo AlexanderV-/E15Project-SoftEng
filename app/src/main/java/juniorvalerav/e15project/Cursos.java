@@ -51,9 +51,7 @@ public class Cursos extends AppCompatActivity implements GoogleApiClient.OnConne
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null){
 
-                }else {
-                    goToLogin();
-                }
+                }else { goToLogin();}
             }
         };
 
